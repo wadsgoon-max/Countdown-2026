@@ -104,6 +104,14 @@
             margin-bottom: 5px;
         }
         
+        .sync-timing {
+            background: rgba(255, 215, 42, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
         .controls {
             display: flex;
             justify-content: center;
@@ -184,6 +192,9 @@
             <h1>🎵 2026 Countdown</h1>
             <p class="subtitle">Synchronized with TheFatRat - Xenogenesis</p>
             <div class="date-box">January 1, 2026 at 00:00:00</div>
+            <div class="sync-timing">
+                ⏰ Music sync: 1:01 epic part hits at exactly 00:00:00 2026!
+            </div>
         </header>
         
         <div class="countdown">
@@ -207,7 +218,10 @@
         
         <div class="music-box">
             <div class="music-title">🎧 TheFatRat - Xenogenesis</div>
-            <p style="opacity:0.9; margin:10px 0">Music starts 72 seconds before 2026</p>
+            <p style="opacity:0.9; margin:10px 0; font-size: 1.1rem;">
+                <span class="highlight">Music starts 61 seconds before 2026</span><br>
+                Epic 1:00-1:02 part hits at midnight!
+            </p>
             <div class="controls">
                 <button class="btn" id="playBtn">▶️ Play</button>
                 <button class="btn" id="pauseBtn">⏸️ Pause</button>
@@ -230,7 +244,7 @@
         </div>
         
         <footer>
-            <p>🎉 Made for 2026 celebrations</p>
+            <p>🎉 Perfect sync: 1:01 epic drop at 00:00:00 2026!</p>
             <p>Music: TheFatRat - Xenogenesis</p>
         </footer>
     </div>
@@ -238,6 +252,9 @@
     <script>
         // Set target date: January 1, 2026
         const TARGET_DATE = new Date('January 1, 2026 00:00:00').getTime();
+        
+        // CRITICAL CHANGE: 61 seconds for 1:01 epic part at midnight!
+        const SYNC_TIME = 61; // Changed from 72 to 61!
         
         // Get DOM elements
         const daysEl = document.getElementById('days');
@@ -263,7 +280,6 @@
         // State
         let countdownActive = true;
         let musicStarted = false;
-        const SYNC_TIME = 72; // Start music 72 seconds before 2026
         
         // Update countdown every second
         setInterval(updateCountdown, 1000);
@@ -334,7 +350,7 @@
             // Update text
             updateStatusText(days, hours, minutes, seconds);
             
-            // Auto-start music at sync time
+            // Auto-start music at sync time (61 seconds before)
             const totalSecondsLeft = Math.floor(distance / 1000);
             if (totalSecondsLeft <= SYNC_TIME && !musicStarted && audio.paused) {
                 startSyncedMusic(totalSecondsLeft);
@@ -352,12 +368,12 @@
             
             // Show celebration message
             statusText.innerHTML = '<span class="highlight">🎉 HAPPY NEW YEAR 2026! 🎉</span>';
-            timeText.textContent = "Welcome to the future!";
+            timeText.textContent = "Epic drop at midnight! Welcome to 2026!";
             currentTimeEl.textContent = "00:00:00 2026";
             
-            // Ensure music is at drop part
+            // Ensure music is at the epic 1:01 part
             if (!audio.paused) {
-                audio.currentTime = 72;
+                audio.currentTime = 61; // 1:01 epic part!
             }
         }
         
@@ -365,28 +381,37 @@
             const totalSecondsLeft = d * 86400 + h * 3600 + m * 60 + s;
             
             if (totalSecondsLeft <= 0) {
-                statusText.textContent = "Happy 2026!";
+                statusText.textContent = "Happy 2026! Epic drop!";
             } else if (totalSecondsLeft <= 10) {
-                statusText.innerHTML = `<span class="highlight">${s} SECONDS TO 2026!</span>`;
+                statusText.innerHTML = `<span class="highlight">${s} SECONDS TO EPIC DROP!</span>`;
             } else if (totalSecondsLeft <= 30) {
-                statusText.textContent = `Almost there! ${s} seconds...`;
-            } else if (totalSecondsLeft <= 60) {
-                statusText.textContent = `One minute to 2026!`;
+                statusText.textContent = `Almost there! ${s} seconds to epic moment...`;
             } else if (totalSecondsLeft <= SYNC_TIME) {
-                statusText.textContent = `Music playing... ${s} seconds to drop!`;
-            } else if (totalSecondsLeft <= SYNC_TIME + 60) {
-                statusText.textContent = `Get ready! Music starts in ${totalSecondsLeft - SYNC_TIME} seconds`;
+                // During the 61-second music buildup
+                const timeToDrop = SYNC_TIME - totalSecondsLeft;
+                if (timeToDrop >= 58 && timeToDrop <= 62) {
+                    statusText.innerHTML = `<span class="highlight">EPIC DROP IN ${62-timeToDrop} SECONDS!</span>`;
+                } else {
+                    statusText.textContent = `Music playing... ${s} seconds to 2026`;
+                }
+            } else if (totalSecondsLeft <= SYNC_TIME + 30) {
+                statusText.textContent = `Get ready! Epic music starts in ${totalSecondsLeft - SYNC_TIME} seconds`;
             } else if (d > 0) {
-                statusText.textContent = `${d} days, ${h}h ${m}m ${s}s to 2026`;
+                statusText.textContent = `${d} days to 2026 epic drop`;
             } else {
                 statusText.textContent = `${h}h ${m}m ${s}s to midnight`;
             }
             
             // Update time text
             if (totalSecondsLeft <= SYNC_TIME && !audio.paused) {
-                timeText.textContent = `🎵 Xenogenesis playing (drop at 00:00)`;
+                const timeIntoMusic = SYNC_TIME - totalSecondsLeft;
+                if (timeIntoMusic >= 58 && timeIntoMusic <= 62) {
+                    timeText.textContent = `🎵 EPIC 1:01 PART PLAYING NOW!`;
+                } else {
+                    timeText.textContent = `🎵 Xenogenesis playing (epic drop at 00:00)`;
+                }
             } else {
-                timeText.textContent = `Time until January 1, 2026`;
+                timeText.textContent = `Epic music starts 61 seconds before midnight`;
             }
         }
         
@@ -395,23 +420,30 @@
             const timeIntoMusic = SYNC_TIME - secondsLeft;
             audio.currentTime = Math.max(0, timeIntoMusic);
             audio.play().catch(() => {
-                statusText.textContent = "Click play button for music";
+                statusText.textContent = "Click play button for epic music";
             });
         }
         
         // Audio event listeners
         audio.addEventListener('play', () => {
             playBtn.textContent = "🔊 Playing";
-            statusText.textContent = "Xenogenesis is playing!";
+            statusText.textContent = "Xenogenesis epic buildup!";
         });
         
         audio.addEventListener('pause', () => {
             playBtn.textContent = "▶️ Play";
         });
         
+        audio.addEventListener('timeupdate', () => {
+            // Highlight when approaching epic part
+            if (audio.currentTime >= 58 && audio.currentTime <= 62) {
+                statusText.innerHTML = '<span class="highlight">EPIC PART NOW! 🎵</span>';
+            }
+        });
+        
         audio.addEventListener('ended', () => {
-            statusText.textContent = "Music ended. Happy New Year!";
+            statusText.textContent = "Music ended. Happy New Year 2026!";
         });
     </script>
 </body>
-      </html>
+                                     </html>
