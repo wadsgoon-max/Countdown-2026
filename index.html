@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2026 Countdown with Xenogenesis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #ffd32a;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .date-box {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 15px 0;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .time-box {
+            background: rgba(255,255,255,0.1);
+            padding: 25px 15px;
+            border-radius: 15px;
+            min-width: 90px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .time-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .music-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .music-title {
+            color: #ffd32a;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: #ffd32a;
+            color: #0c2461;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #ffdd55;
+            transform: scale(1.05);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .volume-slider {
+            width: 120px;
+            margin-top: 10px;
+        }
+        
+        .message {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px auto;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .highlight {
+            color: #ffd32a;
+            font-weight: bold;
+        }
+        
+        .current-time {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        footer {
+            margin-top: 30px;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .time-box { min-width: 75px; padding: 20px 10px; }
+            .number { font-size: 2.2rem; }
+            .btn { padding: 10px 20px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 2026 Countdown</h1>
+            <p class="subtitle">Synchronized with TheFatRat - Xenogenesis</p>
+            <div class="date-box">January 1, 2026 at 00:00:00</div>
+        </header>
+        
+        <div class="countdown">
+            <div class="time-box">
+                <div class="number" id="days">000</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="time-box">
+                <div class="number" id="hours">00</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="time-box">
+                <div class="number" id="minutes">00</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="time-box">
+                <div class="number" id="seconds">00</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="music-box">
+            <div class="music-title">🎧 TheFatRat - Xenogenesis</div>
+            <p style="opacity:0.9; margin:10px 0">Music starts 72 seconds before 2026</p>
+            <div class="controls">
+                <button class="btn" id="playBtn">▶️ Play</button>
+                <button class="btn" id="pauseBtn">⏸️ Pause</button>
+                <button class="btn" id="syncBtn">🔁 Sync</button>
+            </div>
+            <div style="margin-top:15px">
+                <div style="margin-bottom:5px">Volume:</div>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+            </div>
+        </div>
+        
+        <div class="message">
+            <p id="statusText">Countdown to 2026...</p>
+            <p id="timeText" style="margin-top:10px"></p>
+        </div>
+        
+        <div class="current-time">
+            <div>🕐 Current Time: <span id="currentTime">Loading...</span></div>
+            <div style="margin-top:5px; font-size:0.8rem">Hosted on GitHub Pages</div>
+        </div>
+        
+        <footer>
+            <p>🎉 Made for 2026 celebrations</p>
+            <p>Music: TheFatRat - Xenogenesis</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set target date: January 1, 2026
+        const TARGET_DATE = new Date('January 1, 2026 00:00:00').getTime();
+        
+        // Get DOM elements
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const currentTimeEl = document.getElementById('currentTime');
+        const statusText = document.getElementById('statusText');
+        const timeText = document.getElementById('timeText');
+        
+        // Audio setup
+        const audio = new Audio();
+        audio.src = 'https://assets.codepen.io/1468070/TheFatRat+-+Xenogenesis.mp3';
+        audio.volume = 0.5;
+        audio.loop = false;
+        
+        // Controls
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const syncBtn = document.getElementById('syncBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        // State
+        let countdownActive = true;
+        let musicStarted = false;
+        const SYNC_TIME = 72; // Start music 72 seconds before 2026
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Update current time
+        setInterval(() => {
+            currentTimeEl.textContent = new Date().toLocaleTimeString();
+        }, 1000);
+        currentTimeEl.textContent = new Date().toLocaleTimeString();
+        
+        // Event listeners
+        playBtn.addEventListener('click', () => {
+            audio.play().catch(e => {
+                statusText.textContent = "Click play button to start music";
+            });
+        });
+        
+        pauseBtn.addEventListener('click', () => {
+            audio.pause();
+        });
+        
+        syncBtn.addEventListener('click', () => {
+            const now = Date.now();
+            const distance = TARGET_DATE - now;
+            const secondsLeft = Math.floor(distance / 1000);
+            
+            if (secondsLeft > SYNC_TIME) {
+                statusText.textContent = `Music will auto-play in ${secondsLeft - SYNC_TIME} seconds`;
+            } else {
+                const timeIntoMusic = SYNC_TIME - secondsLeft;
+                audio.currentTime = Math.max(0, timeIntoMusic);
+                audio.play().catch(() => {
+                    statusText.textContent = "Click play to start music";
+                });
+            }
+        });
+        
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value;
+        });
+        
+        // Main countdown function
+        function updateCountdown() {
+            if (!countdownActive) return;
+            
+            const now = Date.now();
+            const distance = TARGET_DATE - now;
+            
+            // If countdown finished
+            if (distance < 0) {
+                finishCountdown();
+                return;
+            }
+            
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Update display
+            daysEl.textContent = days.toString().padStart(3, '0');
+            hoursEl.textContent = hours.toString().padStart(2, '0');
+            minutesEl.textContent = minutes.toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+            
+            // Update text
+            updateStatusText(days, hours, minutes, seconds);
+            
+            // Auto-start music at sync time
+            const totalSecondsLeft = Math.floor(distance / 1000);
+            if (totalSecondsLeft <= SYNC_TIME && !musicStarted && audio.paused) {
+                startSyncedMusic(totalSecondsLeft);
+            }
+        }
+        
+        function finishCountdown() {
+            countdownActive = false;
+            
+            // Update display
+            daysEl.textContent = '000';
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            
+            // Show celebration message
+            statusText.innerHTML = '<span class="highlight">🎉 HAPPY NEW YEAR 2026! 🎉</span>';
+            timeText.textContent = "Welcome to the future!";
+            currentTimeEl.textContent = "00:00:00 2026";
+            
+            // Ensure music is at drop part
+            if (!audio.paused) {
+                audio.currentTime = 72;
+            }
+        }
+        
+        function updateStatusText(d, h, m, s) {
+            const totalSecondsLeft = d * 86400 + h * 3600 + m * 60 + s;
+            
+            if (totalSecondsLeft <= 0) {
+                statusText.textContent = "Happy 2026!";
+            } else if (totalSecondsLeft <= 10) {
+                statusText.innerHTML = `<span class="highlight">${s} SECONDS TO 2026!</span>`;
+            } else if (totalSecondsLeft <= 30) {
+                statusText.textContent = `Almost there! ${s} seconds...`;
+            } else if (totalSecondsLeft <= 60) {
+                statusText.textContent = `One minute to 2026!`;
+            } else if (totalSecondsLeft <= SYNC_TIME) {
+                statusText.textContent = `Music playing... ${s} seconds to drop!`;
+            } else if (totalSecondsLeft <= SYNC_TIME + 60) {
+                statusText.textContent = `Get ready! Music starts in ${totalSecondsLeft - SYNC_TIME} seconds`;
+            } else if (d > 0) {
+                statusText.textContent = `${d} days, ${h}h ${m}m ${s}s to 2026`;
+            } else {
+                statusText.textContent = `${h}h ${m}m ${s}s to midnight`;
+            }
+            
+            // Update time text
+            if (totalSecondsLeft <= SYNC_TIME && !audio.paused) {
+                timeText.textContent = `🎵 Xenogenesis playing (drop at 00:00)`;
+            } else {
+                timeText.textContent = `Time until January 1, 2026`;
+            }
+        }
+        
+        function startSyncedMusic(secondsLeft) {
+            musicStarted = true;
+            const timeIntoMusic = SYNC_TIME - secondsLeft;
+            audio.currentTime = Math.max(0, timeIntoMusic);
+            audio.play().catch(() => {
+                statusText.textContent = "Click play button for music";
+            });
+        }
+        
+        // Audio event listeners
+        audio.addEventListener('play', () => {
+            playBtn.textContent = "🔊 Playing";
+            statusText.textContent = "Xenogenesis is playing!";
+        });
+        
+        audio.addEventListener('pause', () => {
+            playBtn.textContent = "▶️ Play";
+        });
+        
+        audio.addEventListener('ended', () => {
+            statusText.textContent = "Music ended. Happy New Year!";
+        });
+    </script>
+</body>
+      </html>
